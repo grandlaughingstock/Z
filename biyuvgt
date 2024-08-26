@@ -1,0 +1,50 @@
+import os
+
+# Maze layout
+maze = [
+    "#############",
+    "#P    #     #",
+    "### # ##### #",
+    "#   #     # #",
+    "# ### ##### #",
+    "#   #       #",
+    "#############"
+]
+
+# Player's initial position
+player_x = 1
+player_y = 1
+
+# Display the maze
+def display_maze():
+    os.system('cls' if os.name == 'nt' else 'clear')  # Clear the console
+    for line in maze:
+        print(line)
+
+# Move player if possible
+def move_player(dx, dy):
+    global player_x, player_y
+    new_x = player_x + dx
+    new_y = player_y + dy
+
+    if maze[new_y][new_x] == ' ':
+        # Update the maze with the new player position
+        maze[player_y] = maze[player_y][:player_x] + ' ' + maze[player_y][player_x+1:]
+        player_x, player_y = new_x, new_y
+        maze[player_y] = maze[player_y][:player_x] + 'P' + maze[player_y][player_x+1:]
+
+# Game loop
+while True:
+    display_maze()
+    move = input("Move (WASD): ").upper()
+
+    if move == 'W':  # Up
+        move_player(0, -1)
+    elif move == 'A':  # Left
+        move_player(-1, 0)
+    elif move == 'S':  # Down
+        move_player(0, 1)
+    elif move == 'D':  # Right
+        move_player(1, 0)
+    elif move == 'Q':  # Quit
+        break
